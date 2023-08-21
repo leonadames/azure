@@ -1,0 +1,6 @@
+{
+	"name": "integrationRuntime1lorenaleon",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

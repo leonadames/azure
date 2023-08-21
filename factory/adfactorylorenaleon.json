@@ -1,0 +1,9 @@
+{
+	"name": "adfactorylorenaleon",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "180b7831-e19d-42be-95d2-3956538ae23d",
+		"tenantId": "0cf11b83-d338-43a4-ba90-34cfa9985885"
+	}
+}
