@@ -1,0 +1,77 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adfactorylorenaleon"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
+		},
+		"AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://key-taller-lorena-leon.vault.azure.net/"
+		},
+		"FileServer1link_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\archive"
+		},
+		"FileServer1link_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "franyleon@hotmail.com"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adfactorylorenaleon_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl')]"
+					},
+					"AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url')]"
+					},
+					"FileServer1link_properties_typeProperties_host": {
+						"value": "[parameters('FileServer1link_properties_typeProperties_host')]"
+					},
+					"FileServer1link_properties_typeProperties_userId": {
+						"value": "[parameters('FileServer1link_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

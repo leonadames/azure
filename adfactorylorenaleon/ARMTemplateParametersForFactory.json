@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfactorylorenaleon"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url": {
+			"value": "https://adlsg2lorenaleon.dfs.core.windows.net/"
+		},
+		"AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl": {
+			"value": "https://key-taller-lorena-leon.vault.azure.net/"
+		},
+		"FileServer1link_properties_typeProperties_host": {
+			"value": "C:\\archive"
+		},
+		"FileServer1link_properties_typeProperties_userId": {
+			"value": "franyleon@hotmail.com"
+		}
+	}
+}
