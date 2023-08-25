@@ -1,16 +1,23 @@
 {
 	"name": "AzureDataLakeStorage1_linkserviceslorenaleon",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
 			"url": "https://adlsg2lorenaleon.dfs.core.windows.net/",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0MTAxYjQxZC03ZTNjLTQ4MTAtYTAxMC1lOTdhZTQ2YWVkMTAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1lorenaleon",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "pss-keydatalake-taller-lorena-leon"
+			}
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1lorenaleon",
 			"type": "IntegrationRuntimeReference"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
