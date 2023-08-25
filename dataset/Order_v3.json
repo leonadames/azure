@@ -1,0 +1,32 @@
+{
+	"name": "Order_v3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer1link",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Nombre_Archivo_Order": {
+				"type": "string",
+				"defaultValue": "Order_v3.csv"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": {
+					"value": "@dataset().Nombre_Archivo_Order",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"nullValue": "''",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
