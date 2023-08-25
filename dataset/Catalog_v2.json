@@ -1,0 +1,32 @@
+{
+	"name": "Catalog_v2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer1link",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Nombre_Archivo_Catalogo": {
+				"type": "string",
+				"defaultValue": "Catalog_v2.csv"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": {
+					"value": "@dataset().Nombre_Archivo_Catalogo",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"nullValue": "''",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
