@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "OnpremisetoCloud",
+				"name": "OnpremisetoCloud-Catalogo",
 				"description": "Traer el archivo de Catalogo  del servidor a la nube",
 				"type": "Copy",
 				"dependsOn": [],
@@ -53,7 +53,10 @@
 						"referenceName": "Catalog_v2",
 						"type": "DatasetReference",
 						"parameters": {
-							"Nombre_Archivo_Catalogo": "Catalog_v2.csv"
+							"Nombre_Archivo_Catalogo": {
+								"value": "@pipeline().parameters.Nombre_Archivo_Catalogo",
+								"type": "Expression"
+							}
 						}
 					}
 				],
@@ -63,8 +66,161 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "OnpremisetoCloud-Orden",
+				"description": "Traer el archivo de Orden del servidor a la nube",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "FileServerWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Order_v3",
+						"type": "DatasetReference",
+						"parameters": {
+							"Nombre_Archivo_Order": "Order_v3.csv"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Order_v3",
+						"type": "DatasetReference",
+						"parameters": {
+							"Nombre_Archivo_Order": {
+								"value": "@pipeline().parameters.Nombre_Archivo_Order",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "OnpremisetoCloud-Orden_Line",
+				"description": "Traer el archivo de Orden line del servidor a la nube",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "FileServerWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "OrderLine_v4",
+						"type": "DatasetReference",
+						"parameters": {
+							"Nombre_Orden_Line": {
+								"value": "@pipeline().parameters.Nombre_Orden_Line",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "OrderLine_v4",
+						"type": "DatasetReference",
+						"parameters": {
+							"Nombre_Orden_Line": {
+								"value": "@pipeline().parameters.Nombre_Orden_Line",
+								"type": "Expression"
+							}
+						}
+					}
+				]
 			}
 		],
+		"parameters": {
+			"Nombre_Archivo_Catalogo": {
+				"type": "string",
+				"defaultValue": "Catalog_v2.csv"
+			},
+			"Nombre_Orden_Line": {
+				"type": "string",
+				"defaultValue": "OrderLine_v4.csv"
+			},
+			"Nombre_Archivo_Order": {
+				"type": "string",
+				"defaultValue": "Order_v3.csv"
+			}
+		},
 		"annotations": []
 	}
 }
