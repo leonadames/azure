@@ -30,7 +30,7 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "FileServerWriteSettings"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -38,8 +38,34 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
-				}
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Catalogo",
+						"type": "DatasetReference",
+						"parameters": {
+							"Nombre_Archivo_Catalogo": {
+								"value": "@pipeline().parameters.Nombre_Archivo_Catalogo",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Datalake_Catalog_v2",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "OnpremisetoCloud-Orden",
@@ -69,7 +95,7 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "FileServerWriteSettings"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -92,20 +118,17 @@
 						"referenceName": "Order_v3",
 						"type": "DatasetReference",
 						"parameters": {
-							"Nombre_Archivo_Order": "Order_v3.csv"
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Order_v3",
-						"type": "DatasetReference",
-						"parameters": {
 							"Nombre_Archivo_Order": {
 								"value": "@pipeline().parameters.Nombre_Archivo_Order",
 								"type": "Expression"
 							}
 						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Datalake_Order3",
+						"type": "DatasetReference"
 					}
 				]
 			},
@@ -137,7 +160,7 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "FileServerWriteSettings"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -169,14 +192,8 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "OrderLine_v4",
-						"type": "DatasetReference",
-						"parameters": {
-							"Nombre_Orden_Line": {
-								"value": "@pipeline().parameters.Nombre_Orden_Line",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "Datalake_Order_line",
+						"type": "DatasetReference"
 					}
 				]
 			}
