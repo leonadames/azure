@@ -1,0 +1,32 @@
+{
+	"name": "OrderLine_v4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer1link",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Nombre_Orden_Line": {
+				"type": "string",
+				"defaultValue": "OrderLine_v4.csv"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": {
+					"value": "@dataset().Nombre_Orden_Line",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"nullValue": "''",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
