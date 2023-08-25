@@ -1,6 +1,5 @@
 {
 	"name": "FileServer1link",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"description": "\\\\LAPTOP-I3KSF0KM\\C$\\archive\\*",
 		"annotations": [],
@@ -8,11 +7,19 @@
 		"typeProperties": {
 			"host": "C:\\archive",
 			"userId": "franyleon@hotmail.com",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1ZmY5YjVlMC0yNzc1LTQxNTgtYTU4OC1mZTkzYjUxZGU5MDEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1lorenaleon",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "pss-key-taller-lorena-leon"
+			}
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1lorenaleon",
 			"type": "IntegrationRuntimeReference"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
