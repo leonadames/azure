@@ -66,10 +66,14 @@
 								"parameters": {},
 								"datasetParameters": {
 									"source1": {},
-									"sinkorderfiltradooutput": {}
+									"sinkorderfiltradooutput": {
+										"Nombre_Order_Filtrado": "Order_Filtrado"
+									}
 								}
 							},
-							"staging": {},
+							"staging": {
+								"folderPath": ""
+							},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -81,6 +85,12 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"parameters": {
+					"Nombre_Order_Filtrado": {
+						"type": "string",
+						"defaultValue": "Output_Order_Filtrado"
+					}
 				},
 				"annotations": []
 			},
@@ -557,13 +567,22 @@
 					"referenceName": "Link_services_BronzetoSilver",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"Nombre_Order_Filtrado": {
+						"type": "string",
+						"defaultValue": "Order_Filtrado"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "Output_Order_Filtrado_",
-						"folderPath": "Bronze",
+						"fileName": {
+							"value": "@dataset().Nombre_Order_Filtrado",
+							"type": "Expression"
+						},
+						"folderPath": "Silver",
 						"fileSystem": "containerlorena"
 					},
 					"columnDelimiter": ",",
