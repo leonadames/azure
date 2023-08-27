@@ -1,0 +1,46 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Dataset_Order",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          orderIdentifier as string,",
+				"          orderType as string,",
+				"          {vendor.organizationIdentifier} as string,",
+				"          {buyer.organizationIdentifier} as string,",
+				"          {shipFromInstructionLocation.locationIdentifier} as string,",
+				"          {shipToLocation.locationIdentifier} as string,",
+				"          orderStatus as string,",
+				"          createdDate as string,",
+				"          requestedShipDate as string,",
+				"          requestedDeliveryDate as string,",
+				"          plannedShipDate as string,",
+				"          plannedDeliveryDate as string,",
+				"          quantity as string,",
+				"          quantityUnits as string,",
+				"          totalValue as string,",
+				"          orderValueCurrency as string,",
+				"          lineCount as string,",
+				"          totalShippedQuantity as string,",
+				"          exclude as string,",
+				"          sourceLink as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1"
+			]
+		}
+	}
+}
