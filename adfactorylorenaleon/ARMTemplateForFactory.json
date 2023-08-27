@@ -562,8 +562,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "Output_Order_filtrado",
-						"folderPath": "Silver",
+						"fileName": "Output_Order_Filtrado_",
+						"folderPath": "Bronze",
 						"fileSystem": "containerlorena"
 					},
 					"columnDelimiter": ",",
