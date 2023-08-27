@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "OnpremisetoCloud-Catalogo",
-				"description": "Traer el archivo de Catalogo  del servidor a la nube",
+				"name": "OnpremisetoCloud-Inventory_v2",
+				"description": "Traer el archivo de Inventario  del servidor a la nube",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -50,10 +50,10 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Catalogo",
+						"referenceName": "Inventory_v2",
 						"type": "DatasetReference",
 						"parameters": {
-							"Nombre_Archivo_Catalogo": {
+							"Nombre_Archivo_Inventario": {
 								"value": "@pipeline().parameters.Nombre_Archivo_Catalogo",
 								"type": "Expression"
 							}
