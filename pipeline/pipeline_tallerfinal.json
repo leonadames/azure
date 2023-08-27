@@ -213,7 +213,15 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow1",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"Nombre_Order_Filtrado": "'Order_Filtrado.txt'"
+						},
+						"datasetParameters": {
+							"sinkorderfiltradooutput": {
+								"Nombre_Order_Filtrado": "Order_Filtrado"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,

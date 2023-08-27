@@ -9,7 +9,15 @@
 						"referenceName": "Dataset_Order",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "LeerDatasetOrder"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dataset_Order_Line",
+						"type": "DatasetReference"
+					},
+					"name": "LeerDatasetOrderLine",
+					"description": "Import data from Dataset_Order_Line"
 				}
 			],
 			"sinks": [
@@ -55,8 +63,11 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
+				"     ignoreNoFilesFound: false) ~> LeerDatasetOrder",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> LeerDatasetOrderLine",
+				"LeerDatasetOrder filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
 				"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:[($Nombre_Order_Filtrado)],",
