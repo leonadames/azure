@@ -19,14 +19,14 @@
 					"dataflow": {
 						"referenceName": "dataflow1",
 						"type": "DataFlowReference",
+						"parameters": {
+							"Nombre_Order_Filtrado": "'Order_Filtrado'"
+						},
 						"datasetParameters": {
 							"sinkorderfiltradooutput": {
 								"Nombre_Order_Filtrado": "Order_Filtrado"
 							}
 						}
-					},
-					"staging": {
-						"folderPath": ""
 					},
 					"compute": {
 						"coreCount": 8,
