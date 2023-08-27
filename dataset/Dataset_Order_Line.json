@@ -1,0 +1,24 @@
+{
+	"name": "Dataset_Order_Line",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Link_services_BronzetoSilver",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "OrderLine_v4.txt",
+				"folderPath": "Bronze",
+				"fileSystem": "containerlorena"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
