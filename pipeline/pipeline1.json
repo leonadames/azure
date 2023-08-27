@@ -20,6 +20,13 @@
 						"referenceName": "dataflow1",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "Link_services_BronzetoSilver",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "containerlorena/Silver"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
@@ -28,6 +35,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"Nombre_Order_Filtrado": {
+				"type": "string",
+				"defaultValue": "Output_Order_Filtrado"
+			}
+		},
 		"annotations": []
 	}
 }
