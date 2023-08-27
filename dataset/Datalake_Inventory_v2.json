@@ -1,5 +1,5 @@
 {
-	"name": "Datalake_Catalog_v2",
+	"name": "Datalake_Inventory_v2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1_linkserviceslorenaleon",

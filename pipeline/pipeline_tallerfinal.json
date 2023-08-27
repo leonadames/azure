@@ -62,7 +62,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Datalake_Catalog_v2",
+						"referenceName": "Datalake_Inventory_v2",
 						"type": "DatasetReference"
 					}
 				]
