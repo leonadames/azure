@@ -12,8 +12,21 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Dataset_Order_Filtrado_Output",
+						"type": "DatasetReference"
+					},
+					"name": "sinkorderfiltradooutput",
+					"description": "salida del archivo order filtrado por ciudades principales"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltroCiudadesPrincipales"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          orderIdentifier as string,",
@@ -39,7 +52,15 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1"
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston' ) ~> FiltroCiudadesPrincipales",
+				"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkorderfiltradooutput"
 			]
 		}
 	}
