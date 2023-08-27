@@ -134,7 +134,8 @@
 				"          productValue,",
 				"          value,",
 				"          valueCurrency",
-				"     )) ~> sink1orderlinefiltrado"
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1orderlinefiltrado"
 			]
 		}
 	}
