@@ -67,7 +67,8 @@
 									"Nombre_Order_Filtrado": "'Order_Filtrado'"
 								},
 								"datasetParameters": {
-									"source1": {},
+									"LeerDatasetOrder": {},
+									"LeerDatasetOrderLine": {},
 									"sinkorderfiltradooutput": {
 										"Nombre_Order_Filtrado": "Order_Filtrado"
 									}
@@ -319,10 +320,15 @@
 							"dataflow": {
 								"referenceName": "dataflow1",
 								"type": "DataFlowReference",
-								"parameters": {},
+								"parameters": {
+									"Nombre_Order_Filtrado": "'Order_Filtrado.txt'"
+								},
 								"datasetParameters": {
-									"source1": {},
-									"sinkorderfiltradooutput": {}
+									"LeerDatasetOrder": {},
+									"LeerDatasetOrderLine": {},
+									"sinkorderfiltradooutput": {
+										"Nombre_Order_Filtrado": "Order_Filtrado"
+									}
 								}
 							},
 							"staging": {},
@@ -583,6 +589,35 @@
 							"type": "Expression"
 						},
 						"folderPath": "Silver",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Link_services_BronzetoSilver')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Order_Line')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Link_services_BronzetoSilver",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "OrderLine_v4.txt",
+						"folderPath": "Bronze",
 						"fileSystem": "containerlorena"
 					},
 					"columnDelimiter": ",",
@@ -947,7 +982,15 @@
 								"referenceName": "Dataset_Order",
 								"type": "DatasetReference"
 							},
-							"name": "source1"
+							"name": "LeerDatasetOrder"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Order_Line",
+								"type": "DatasetReference"
+							},
+							"name": "LeerDatasetOrderLine",
+							"description": "Import data from Dataset_Order_Line"
 						}
 					],
 					"sinks": [
@@ -993,8 +1036,11 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
+						"     ignoreNoFilesFound: false) ~> LeerDatasetOrder",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> LeerDatasetOrderLine",
+						"LeerDatasetOrder filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
 						"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     partitionFileNames:[($Nombre_Order_Filtrado)],",
@@ -1016,6 +1062,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Dataset_Order')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Line')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Filtrado_Output')]"
 			]
 		}
