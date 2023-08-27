@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DS_ORDER_FILTRADO",
+						"referenceName": "DS_Order_filtrado",
 						"type": "DatasetReference"
 					},
 					"name": "OrderFiltrado"
