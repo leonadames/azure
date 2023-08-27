@@ -385,7 +385,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"Nombre_Archivo_Inventario": {
-										"value": "@pipeline().parameters.Nombre_Archivo_Catalogo",
+										"value": "@pipeline().parameters.Nombre_Archivo_Inventario",
 										"type": "Expression"
 									}
 								}
@@ -537,9 +537,9 @@
 					"cancelAfter": {}
 				},
 				"parameters": {
-					"Nombre_Archivo_Catalogo": {
+					"Nombre_Archivo_Inventario": {
 						"type": "string",
-						"defaultValue": "Catalog_v2.csv"
+						"defaultValue": "Inventory_v2.csv"
 					},
 					"Nombre_Orden_Line": {
 						"type": "string",
