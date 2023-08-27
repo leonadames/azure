@@ -48,7 +48,8 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     Nombre_Order_Filtrado as string ('Order_Filtrado.txt')",
+				"     Nombre_Order_Filtrado as string ('Order_Filtrado.txt'),",
+				"     Nombre_OrderLine_Filtrado as string ('OrderLine_Filtrado')",
 				"}",
 				"source(output(",
 				"          orderIdentifier as string,",
@@ -118,7 +119,7 @@
 				"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput",
 				"FiltrarProductValue sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:[($Nombre_OrderLine_Filtrado)],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
