@@ -1,0 +1,113 @@
+{
+	"name": "Dataset_Inventario",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Link_services_BronzetoSilver",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Inventory_v2.txt",
+				"folderPath": "Bronze",
+				"fileSystem": "containerlorena"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "product.partNumber",
+				"type": "String"
+			},
+			{
+				"name": "location.locationIdentifier",
+				"type": "String"
+			},
+			{
+				"name": "inventoryType",
+				"type": "String"
+			},
+			{
+				"name": "quantity",
+				"type": "String"
+			},
+			{
+				"name": "quantityUnits",
+				"type": "String"
+			},
+			{
+				"name": "value",
+				"type": "String"
+			},
+			{
+				"name": "valueCurrency",
+				"type": "String"
+			},
+			{
+				"name": "reservationOrders",
+				"type": "String"
+			},
+			{
+				"name": "daysOfSupply",
+				"type": "String"
+			},
+			{
+				"name": "shelfLife",
+				"type": "String"
+			},
+			{
+				"name": "reorderLevel",
+				"type": "String"
+			},
+			{
+				"name": "expectedLeadTime",
+				"type": "String"
+			},
+			{
+				"name": "quantityUpperThreshold",
+				"type": "String"
+			},
+			{
+				"name": "quantityLowerThreshold",
+				"type": "String"
+			},
+			{
+				"name": "daysOfSupplyUpperThreshold",
+				"type": "String"
+			},
+			{
+				"name": "daysOfSupplyLowerThreshold",
+				"type": "String"
+			},
+			{
+				"name": "expiringThreshold",
+				"type": "String"
+			},
+			{
+				"name": "plannerCode",
+				"type": "String"
+			},
+			{
+				"name": "velocityCode",
+				"type": "String"
+			},
+			{
+				"name": "inventoryParentType",
+				"type": "String"
+			},
+			{
+				"name": "class",
+				"type": "String"
+			},
+			{
+				"name": "segment",
+				"type": "String"
+			}
+		]
+	}
+}

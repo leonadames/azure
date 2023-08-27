@@ -44,6 +44,10 @@
 			"Nombre_OrderLine_Filtrado": {
 				"type": "string",
 				"defaultValue": "Output_OrderLine_Filtrado"
+			},
+			"Nobre_Inventario_Ordenado": {
+				"type": "string",
+				"defaultValue": "Output_Inventario_Ordenado"
 			}
 		},
 		"annotations": []
