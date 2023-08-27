@@ -133,7 +133,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Datalake_Catalog_v2')]",
+			"name": "[concat(parameters('factoryName'), '/Datalake_Inventory_v2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -393,7 +393,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "Datalake_Catalog_v2",
+								"referenceName": "Datalake_Inventory_v2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -554,7 +554,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Inventory_v2')]",
-				"[concat(variables('factoryId'), '/datasets/Datalake_Catalog_v2')]",
+				"[concat(variables('factoryId'), '/datasets/Datalake_Inventory_v2')]",
 				"[concat(variables('factoryId'), '/datasets/Order_v3')]",
 				"[concat(variables('factoryId'), '/datasets/Datalake_Order3')]",
 				"[concat(variables('factoryId'), '/datasets/OrderLine_v4')]",
