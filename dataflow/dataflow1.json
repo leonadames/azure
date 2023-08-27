@@ -59,12 +59,13 @@
 				"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
 				"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:($Nombre_Order_Filtrado),",
+				"     partitionFileNames:[''],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sinkorderfiltradooutput"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput"
 			]
 		}
 	}
