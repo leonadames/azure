@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfactorylorenaleon"
 		},
+		"Link_services_BronzetoSilver_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Link_services_BronzetoSilver'"
+		},
 		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
@@ -14,6 +18,10 @@
 		"AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://key-taller-lorena-leon.vault.azure.net/"
+		},
+		"Link_services_BronzetoSilver_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
 		},
 		"AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url": {
 			"type": "string",
@@ -46,6 +54,23 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Link_services_BronzetoSilver')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('Link_services_BronzetoSilver_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('Link_services_BronzetoSilver_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/integrationRuntime1lorenaleon')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -54,6 +79,144 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Order')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Link_services_BronzetoSilver",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Order_v3.txt",
+						"folderPath": "Bronze",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "orderIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "orderType",
+						"type": "String"
+					},
+					{
+						"name": "vendor.organizationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "buyer.organizationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "shipFromInstructionLocation.locationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "shipToLocation.locationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "orderStatus",
+						"type": "String"
+					},
+					{
+						"name": "createdDate",
+						"type": "String"
+					},
+					{
+						"name": "requestedShipDate",
+						"type": "String"
+					},
+					{
+						"name": "requestedDeliveryDate",
+						"type": "String"
+					},
+					{
+						"name": "plannedShipDate",
+						"type": "String"
+					},
+					{
+						"name": "plannedDeliveryDate",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "quantityUnits",
+						"type": "String"
+					},
+					{
+						"name": "totalValue",
+						"type": "String"
+					},
+					{
+						"name": "orderValueCurrency",
+						"type": "String"
+					},
+					{
+						"name": "lineCount",
+						"type": "String"
+					},
+					{
+						"name": "totalShippedQuantity",
+						"type": "String"
+					},
+					{
+						"name": "exclude",
+						"type": "String"
+					},
+					{
+						"name": "sourceLink",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Link_services_BronzetoSilver')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Order_Filtrado_Output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Link_services_BronzetoSilver",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Silver",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Link_services_BronzetoSilver')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
@@ -291,6 +454,116 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Order_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1_linkserviceslorenaleon",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Order_v3.txt",
+						"folderPath": "Bronze",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "orderIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "orderType",
+						"type": "String"
+					},
+					{
+						"name": "vendor.organizationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "buyer.organizationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "shipFromInstructionLocation.locationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "shipToLocation.locationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "orderStatus",
+						"type": "String"
+					},
+					{
+						"name": "createdDate",
+						"type": "String"
+					},
+					{
+						"name": "requestedShipDate",
+						"type": "String"
+					},
+					{
+						"name": "requestedDeliveryDate",
+						"type": "String"
+					},
+					{
+						"name": "plannedShipDate",
+						"type": "String"
+					},
+					{
+						"name": "plannedDeliveryDate",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "quantityUnits",
+						"type": "String"
+					},
+					{
+						"name": "totalValue",
+						"type": "String"
+					},
+					{
+						"name": "orderValueCurrency",
+						"type": "String"
+					},
+					{
+						"name": "lineCount",
+						"type": "String"
+					},
+					{
+						"name": "totalShippedQuantity",
+						"type": "String"
+					},
+					{
+						"name": "exclude",
+						"type": "String"
+					},
+					{
+						"name": "sourceLink",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1_linkserviceslorenaleon')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Order_v3')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -325,6 +598,79 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/FileServer1link')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dataset_Order",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Dataset_Order_Filtrado_Output",
+								"type": "DatasetReference"
+							},
+							"name": "sinkorderfiltradooutput",
+							"description": "salida del archivo order filtrado por ciudades principales"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FiltroCiudadesPrincipales"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          orderIdentifier as string,",
+						"          orderType as string,",
+						"          {vendor.organizationIdentifier} as string,",
+						"          {buyer.organizationIdentifier} as string,",
+						"          {shipFromInstructionLocation.locationIdentifier} as string,",
+						"          {shipToLocation.locationIdentifier} as string,",
+						"          orderStatus as string,",
+						"          createdDate as string,",
+						"          requestedShipDate as string,",
+						"          requestedDeliveryDate as string,",
+						"          plannedShipDate as string,",
+						"          plannedDeliveryDate as string,",
+						"          quantity as string,",
+						"          quantityUnits as string,",
+						"          totalValue as string,",
+						"          orderValueCurrency as string,",
+						"          lineCount as string,",
+						"          totalShippedQuantity as string,",
+						"          exclude as string,",
+						"          sourceLink as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
+						"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sinkorderfiltradooutput"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Dataset_Order')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Filtrado_Output')]"
 			]
 		},
 		{
@@ -530,6 +876,37 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Filtrar_Ciudades_Principales",
+						"description": "Traer la info de las ciudades principales",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sinkorderfiltradooutput": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -558,7 +935,8 @@
 				"[concat(variables('factoryId'), '/datasets/Order_v3')]",
 				"[concat(variables('factoryId'), '/datasets/Datalake_Order3')]",
 				"[concat(variables('factoryId'), '/datasets/OrderLine_v4')]",
-				"[concat(variables('factoryId'), '/datasets/Datalake_Order_line')]"
+				"[concat(variables('factoryId'), '/datasets/Datalake_Order_line')]",
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
 			]
 		}
 	]

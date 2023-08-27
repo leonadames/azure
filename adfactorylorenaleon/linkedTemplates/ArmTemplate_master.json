@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"Link_services_BronzetoSilver_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Link_services_BronzetoSilver'"
+		},
 		"AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
@@ -26,6 +30,10 @@
 		"FileServer1link_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "franyleon@hotmail.com"
+		},
+		"Link_services_BronzetoSilver_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -54,11 +62,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"Link_services_BronzetoSilver_accountKey": {
+						"value": "[parameters('Link_services_BronzetoSilver_accountKey')]"
+					},
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
 					"AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1lorenaleon_properties_typeProperties_baseUrl')]"
+					},
+					"Link_services_BronzetoSilver_properties_typeProperties_url": {
+						"value": "[parameters('Link_services_BronzetoSilver_properties_typeProperties_url')]"
 					},
 					"AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_linkserviceslorenaleon_properties_typeProperties_url')]"
