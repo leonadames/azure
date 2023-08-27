@@ -133,43 +133,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Catalogo')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "FileServer1link",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Nombre_Archivo_Catalogo": {
-						"type": "string",
-						"defaultValue": "Catalog_v2.csv"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": {
-							"value": "@dataset().Nombre_Archivo_Catalogo",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"nullValue": "''",
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FileServer1link')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Datalake_Catalog_v2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -254,6 +217,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Inventory_v2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "FileServer1link",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Nombre_Archivo_Inventario": {
+						"type": "string",
+						"defaultValue": "Inventory_v2.csv"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": {
+							"value": "@dataset().Nombre_Archivo_Inventario",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"nullValue": "''",
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/FileServer1link')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/OrderLine_v4')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -334,8 +334,8 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "OnpremisetoCloud-Catalogo",
-						"description": "Traer el archivo de Catalogo  del servidor a la nube",
+						"name": "OnpremisetoCloud-Inventory_v2",
+						"description": "Traer el archivo de Inventario  del servidor a la nube",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -381,10 +381,10 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "Catalogo",
+								"referenceName": "Inventory_v2",
 								"type": "DatasetReference",
 								"parameters": {
-									"Nombre_Archivo_Catalogo": {
+									"Nombre_Archivo_Inventario": {
 										"value": "@pipeline().parameters.Nombre_Archivo_Catalogo",
 										"type": "Expression"
 									}
@@ -553,7 +553,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Catalogo')]",
+				"[concat(variables('factoryId'), '/datasets/Inventory_v2')]",
 				"[concat(variables('factoryId'), '/datasets/Datalake_Catalog_v2')]",
 				"[concat(variables('factoryId'), '/datasets/Order_v3')]",
 				"[concat(variables('factoryId'), '/datasets/Datalake_Order3')]",
