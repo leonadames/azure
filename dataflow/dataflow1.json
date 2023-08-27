@@ -59,7 +59,7 @@
 				"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
 				"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:[($Nombre_Order_Filtrado)],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
