@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Filtrar_Ciudades_Principales",
+				"name": "Limpieza_Data",
 				"description": "Traer la info de las ciudades principales",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
@@ -20,7 +20,9 @@
 						"referenceName": "dataflow1",
 						"type": "DataFlowReference",
 						"parameters": {
-							"Nombre_Order_Filtrado": "'Order_Filtrado'"
+							"Nombre_Order_Filtrado": "'Order_Filtrado'",
+							"Nombre_OrderLine_Filtrado": "'OrderLine_Filtrado'",
+							"Nombre_Inventario_Ordenado": "'Inventario_Ordenado'"
 						},
 						"datasetParameters": {
 							"sinkorderfiltradooutput": {
