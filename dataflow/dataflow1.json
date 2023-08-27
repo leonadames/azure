@@ -28,11 +28,22 @@
 					},
 					"name": "sinkorderfiltradooutput",
 					"description": "salida del archivo order filtrado por ciudades principales"
+				},
+				{
+					"dataset": {
+						"referenceName": "Orderline_Filtrado",
+						"type": "DatasetReference"
+					},
+					"name": "sink1orderlinefiltrado"
 				}
 			],
 			"transformations": [
 				{
 					"name": "FiltroCiudadesPrincipales"
+				},
+				{
+					"name": "FiltrarProductValue",
+					"description": "Traer los registro que tengan un valor mayor a 0"
 				}
 			],
 			"scriptLines": [
@@ -64,10 +75,31 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> LeerDatasetOrder",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          orderIdentifier as integer,",
+				"          orderLineNumber as short,",
+				"          orderType as string,",
+				"          {product.partNumber} as string,",
+				"          {shipFromInstructionLocation.locationIdentifier} as string,",
+				"          {shipToLocation.locationIdentifier} as string,",
+				"          status as string,",
+				"          createdDate as string,",
+				"          requestedShipDate as string,",
+				"          requestedDeliveryDate as string,",
+				"          plannedShipDate as string,",
+				"          plannedDeliveryDate as string,",
+				"          quantity as short,",
+				"          quantityUnits as string,",
+				"          productValue as short,",
+				"          value as integer,",
+				"          valueCurrency as string,",
+				"          shipmentCount as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> LeerDatasetOrderLine",
 				"LeerDatasetOrder filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
+				"LeerDatasetOrderLine filter(productValue>0) ~> FiltrarProductValue",
 				"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:[($Nombre_Order_Filtrado)],",
@@ -83,7 +115,26 @@
 				"          buyer_organizationIdentifier = {buyer.organizationIdentifier},",
 				"          locationIdentifier = {shipToLocation.locationIdentifier}",
 				"     ),",
-				"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput"
+				"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput",
+				"FiltrarProductValue sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:[''],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          orderIdentifier,",
+				"          orderLineNumber,",
+				"          orderType,",
+				"          partNumber = {product.partNumber},",
+				"          createdDate,",
+				"          quantity,",
+				"          productValue,",
+				"          value,",
+				"          valueCurrency",
+				"     )) ~> sink1orderlinefiltrado"
 			]
 		}
 	}
