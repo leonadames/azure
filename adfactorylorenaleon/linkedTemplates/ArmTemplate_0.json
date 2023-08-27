@@ -643,7 +643,7 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     Nombre_Order_Filtrado as string ('Order_Filtrado')",
+						"     Nombre_Order_Filtrado as string ('Order_Filtrado.txt')",
 						"}",
 						"source(output(",
 						"          orderIdentifier as string,",
@@ -682,8 +682,8 @@
 						"     mapColumn(",
 						"          orderIdentifier,",
 						"          orderType,",
-						"          organizationIdentifier = {vendor.organizationIdentifier},",
-						"          organizationIdentifier = {buyer.organizationIdentifier},",
+						"          vendor_organizationIdentifier = {vendor.organizationIdentifier},",
+						"          buyer_organizationIdentifier = {buyer.organizationIdentifier},",
 						"          locationIdentifier = {shipToLocation.locationIdentifier}",
 						"     ),",
 						"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput"
