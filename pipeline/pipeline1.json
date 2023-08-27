@@ -40,6 +40,10 @@
 			"Nombre_Order_Filtrado": {
 				"type": "string",
 				"defaultValue": "Output_Order_Filtrado"
+			},
+			"Nombre_OrderLine_Filtrado": {
+				"type": "string",
+				"defaultValue": "Output_OrderLine_Filtrado"
 			}
 		},
 		"annotations": []
