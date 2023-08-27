@@ -71,7 +71,8 @@
 									"LeerDatasetOrderLine": {},
 									"sinkorderfiltradooutput": {
 										"Nombre_Order_Filtrado": "Order_Filtrado"
-									}
+									},
+									"sink1orderlinefiltrado": {}
 								}
 							},
 							"staging": {},
@@ -91,6 +92,10 @@
 					"Nombre_Order_Filtrado": {
 						"type": "string",
 						"defaultValue": "Output_Order_Filtrado"
+					},
+					"Nombre_OrderLine_Filtrado": {
+						"type": "string",
+						"defaultValue": "Output_OrderLine_Filtrado"
 					}
 				},
 				"annotations": []
@@ -328,7 +333,8 @@
 									"LeerDatasetOrderLine": {},
 									"sinkorderfiltradooutput": {
 										"Nombre_Order_Filtrado": "Order_Filtrado"
-									}
+									},
+									"sink1orderlinefiltrado": {}
 								}
 							},
 							"staging": {},
@@ -853,6 +859,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Orderline_Filtrado')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Link_services_BronzetoSilver",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Silver",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Link_services_BronzetoSilver')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1001,16 +1035,28 @@
 							},
 							"name": "sinkorderfiltradooutput",
 							"description": "salida del archivo order filtrado por ciudades principales"
+						},
+						{
+							"dataset": {
+								"referenceName": "Orderline_Filtrado",
+								"type": "DatasetReference"
+							},
+							"name": "sink1orderlinefiltrado"
 						}
 					],
 					"transformations": [
 						{
 							"name": "FiltroCiudadesPrincipales"
+						},
+						{
+							"name": "FiltrarProductValue",
+							"description": "Traer los registro que tengan un valor mayor a 0"
 						}
 					],
 					"scriptLines": [
 						"parameters{",
-						"     Nombre_Order_Filtrado as string ('Order_Filtrado.txt')",
+						"     Nombre_Order_Filtrado as string ('Order_Filtrado.txt'),",
+						"     Nombre_OrderLine_Filtrado as string ('OrderLine_Filtrado')",
 						"}",
 						"source(output(",
 						"          orderIdentifier as string,",
@@ -1037,10 +1083,31 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> LeerDatasetOrder",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          orderIdentifier as integer,",
+						"          orderLineNumber as short,",
+						"          orderType as string,",
+						"          {product.partNumber} as string,",
+						"          {shipFromInstructionLocation.locationIdentifier} as string,",
+						"          {shipToLocation.locationIdentifier} as string,",
+						"          status as string,",
+						"          createdDate as string,",
+						"          requestedShipDate as string,",
+						"          requestedDeliveryDate as string,",
+						"          plannedShipDate as string,",
+						"          plannedDeliveryDate as string,",
+						"          quantity as short,",
+						"          quantityUnits as string,",
+						"          productValue as short,",
+						"          value as integer,",
+						"          valueCurrency as string,",
+						"          shipmentCount as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> LeerDatasetOrderLine",
 						"LeerDatasetOrder filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
+						"LeerDatasetOrderLine filter(productValue>0) ~> FiltrarProductValue",
 						"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     partitionFileNames:[($Nombre_Order_Filtrado)],",
@@ -1056,14 +1123,35 @@
 						"          buyer_organizationIdentifier = {buyer.organizationIdentifier},",
 						"          locationIdentifier = {shipToLocation.locationIdentifier}",
 						"     ),",
-						"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput"
+						"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput",
+						"FiltrarProductValue sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:[($Nombre_OrderLine_Filtrado)],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          orderIdentifier,",
+						"          orderLineNumber,",
+						"          orderType,",
+						"          partNumber = {product.partNumber},",
+						"          createdDate,",
+						"          quantity,",
+						"          productValue,",
+						"          value,",
+						"          valueCurrency",
+						"     ),",
+						"     partitionBy('hash', 1)) ~> sink1orderlinefiltrado"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Dataset_Order')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Line')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Filtrado_Output')]"
+				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Filtrado_Output')]",
+				"[concat(variables('factoryId'), '/datasets/Orderline_Filtrado')]"
 			]
 		}
 	]
