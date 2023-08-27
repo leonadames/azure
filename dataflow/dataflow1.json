@@ -53,7 +53,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston' ) ~> FiltroCiudadesPrincipales",
+				"source1 filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
 				"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",

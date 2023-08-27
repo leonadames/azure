@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "Output_Order_filtrado",
 				"folderPath": "Silver",
 				"fileSystem": "containerlorena"
 			},
