@@ -231,7 +231,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow1",
+						"referenceName": "Dataflow_Bronze_To_Silver",
 						"type": "DataFlowReference",
 						"parameters": {
 							"Nombre_Order_Filtrado": "'Order_Filtrado.txt'",
@@ -272,7 +272,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow2",
+						"referenceName": "Dataflow_Silver_To_Gold",
 						"type": "DataFlowReference",
 						"parameters": {
 							"Nombre_Dataset_Final": "'Dataset_Final'"

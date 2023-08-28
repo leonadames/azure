@@ -1,5 +1,5 @@
 {
-	"name": "dataflow2",
+	"name": "Dataflow_Silver_To_Gold",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -32,7 +32,7 @@
 						"referenceName": "Json_Final",
 						"type": "DatasetReference"
 					},
-					"name": "RemoveDuplicates"
+					"name": "GeneraArchivoFinal"
 				}
 			],
 			"transformations": [
@@ -99,7 +99,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> RemoveDuplicates"
+				"     partitionBy('hash', 1)) ~> GeneraArchivoFinal"
 			]
 		}
 	}
