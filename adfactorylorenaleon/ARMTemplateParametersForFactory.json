@@ -31,6 +31,15 @@
 		},
 		"Linked_Bronze_To_Gold_properties_typeProperties_url": {
 			"value": "https://adlsg2lorenaleon.dfs.core.windows.net/"
+		},
+		"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Inventario": {
+			"value": "'Inventory_v2.csv'"
+		},
+		"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Orden_Line": {
+			"value": "'OrderLine_v4.csv'"
+		},
+		"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Order": {
+			"value": "'Order_v3.csv'"
 		}
 	}
 }

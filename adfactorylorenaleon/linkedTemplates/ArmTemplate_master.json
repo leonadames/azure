@@ -43,6 +43,18 @@
 			"type": "string",
 			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
 		},
+		"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Inventario": {
+			"type": "string",
+			"defaultValue": "'Inventory_v2.csv'"
+		},
+		"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Orden_Line": {
+			"type": "string",
+			"defaultValue": "'OrderLine_v4.csv'"
+		},
+		"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Order": {
+			"type": "string",
+			"defaultValue": "'Order_v3.csv'"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -114,6 +126,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Inventario": {
+						"value": "[parameters('Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Inventario')]"
+					},
+					"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Orden_Line": {
+						"value": "[parameters('Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Orden_Line')]"
+					},
+					"Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Order": {
+						"value": "[parameters('Trigger_proyecto_final_properties_pipeline_tallerfinal_parameters_Nombre_Archivo_Order')]"
 					}
 				}
 			},
