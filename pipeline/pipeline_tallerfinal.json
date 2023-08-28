@@ -273,7 +273,10 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow2",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"Nombre_Dataset_Final": "'Dataset_Final'"
+						}
 					},
 					"compute": {
 						"coreCount": 8,

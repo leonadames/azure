@@ -29,7 +29,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Dataset_final",
+						"referenceName": "Json_Final",
 						"type": "DatasetReference"
 					},
 					"name": "RemoveDuplicates"

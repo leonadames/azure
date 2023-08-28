@@ -1,0 +1,19 @@
+{
+	"name": "Json_Final",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linked_Bronze_To_Gold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Gold",
+				"fileSystem": "containerlorena"
+			}
+		},
+		"schema": {}
+	}
+}
