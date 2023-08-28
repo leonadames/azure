@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'Link_services_BronzetoSilver'"
 		},
+		"Linked_Bronze_To_Gold_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Linked_Bronze_To_Gold'"
+		},
 		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
@@ -20,6 +24,10 @@
 			"defaultValue": "https://key-taller-lorena-leon.vault.azure.net/"
 		},
 		"Link_services_BronzetoSilver_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
+		},
+		"Linked_Bronze_To_Gold_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsg2lorenaleon.dfs.core.windows.net/"
 		},
@@ -71,6 +79,23 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Linked_Bronze_To_Gold')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('Linked_Bronze_To_Gold_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('Linked_Bronze_To_Gold_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/integrationRuntime1lorenaleon')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -79,6 +104,168 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_INVENTARIO_ORDENADO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Linked_Bronze_To_Gold",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Inventario_Ordenado",
+						"folderPath": "Silver",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "product.partNumber",
+						"type": "String"
+					},
+					{
+						"name": "inventoryType",
+						"type": "String"
+					},
+					{
+						"name": "plannerCode",
+						"type": "String"
+					},
+					{
+						"name": "inventoryParentType",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Linked_Bronze_To_Gold')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ORDERLINE_FILTRADO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Linked_Bronze_To_Gold",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "OrderLine_Filtrado",
+						"folderPath": "Silver",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "orderIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "orderLineNumber",
+						"type": "String"
+					},
+					{
+						"name": "orderType",
+						"type": "String"
+					},
+					{
+						"name": "partNumber",
+						"type": "String"
+					},
+					{
+						"name": "createdDate",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "productValue",
+						"type": "String"
+					},
+					{
+						"name": "value",
+						"type": "String"
+					},
+					{
+						"name": "valueCurrency",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Linked_Bronze_To_Gold')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ORDER_FILTRADO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Linked_Bronze_To_Gold",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Order_Filtrado.txt",
+						"folderPath": "Silver",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "orderIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "orderType",
+						"type": "String"
+					},
+					{
+						"name": "vendor_organizationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "buyer_organizationIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "locationIdentifier",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Linked_Bronze_To_Gold')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Dataset_Inventario')]",
@@ -376,6 +563,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_final')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Linked_Bronze_To_Gold",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Gold",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Linked_Bronze_To_Gold')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Inventario_Ordenado')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -590,447 +805,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1_linkserviceslorenaleon')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Inventory_v2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "FileServer1link",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Nombre_Archivo_Inventario": {
-						"type": "string",
-						"defaultValue": "Inventory_v2.csv"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": {
-							"value": "@dataset().Nombre_Archivo_Inventario",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"nullValue": "''",
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FileServer1link')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/OrderLine_v4')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "FileServer1link",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Nombre_Orden_Line": {
-						"type": "string",
-						"defaultValue": "OrderLine_v4.csv"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": {
-							"value": "@dataset().Nombre_Orden_Line",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"nullValue": "''",
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FileServer1link')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Order_Dataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1_linkserviceslorenaleon",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Order_v3.txt",
-						"folderPath": "Bronze",
-						"fileSystem": "containerlorena"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "orderIdentifier",
-						"type": "String"
-					},
-					{
-						"name": "orderType",
-						"type": "String"
-					},
-					{
-						"name": "vendor.organizationIdentifier",
-						"type": "String"
-					},
-					{
-						"name": "buyer.organizationIdentifier",
-						"type": "String"
-					},
-					{
-						"name": "shipFromInstructionLocation.locationIdentifier",
-						"type": "String"
-					},
-					{
-						"name": "shipToLocation.locationIdentifier",
-						"type": "String"
-					},
-					{
-						"name": "orderStatus",
-						"type": "String"
-					},
-					{
-						"name": "createdDate",
-						"type": "String"
-					},
-					{
-						"name": "requestedShipDate",
-						"type": "String"
-					},
-					{
-						"name": "requestedDeliveryDate",
-						"type": "String"
-					},
-					{
-						"name": "plannedShipDate",
-						"type": "String"
-					},
-					{
-						"name": "plannedDeliveryDate",
-						"type": "String"
-					},
-					{
-						"name": "quantity",
-						"type": "String"
-					},
-					{
-						"name": "quantityUnits",
-						"type": "String"
-					},
-					{
-						"name": "totalValue",
-						"type": "String"
-					},
-					{
-						"name": "orderValueCurrency",
-						"type": "String"
-					},
-					{
-						"name": "lineCount",
-						"type": "String"
-					},
-					{
-						"name": "totalShippedQuantity",
-						"type": "String"
-					},
-					{
-						"name": "exclude",
-						"type": "String"
-					},
-					{
-						"name": "sourceLink",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1_linkserviceslorenaleon')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Order_v3')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "FileServer1link",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Nombre_Archivo_Order": {
-						"type": "string",
-						"defaultValue": "Order_v3.csv"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": {
-							"value": "@dataset().Nombre_Archivo_Order",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"nullValue": "''",
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FileServer1link')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Dataset_Order",
-								"type": "DatasetReference"
-							},
-							"name": "LeerDatasetOrder"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Order_Line",
-								"type": "DatasetReference"
-							},
-							"name": "LeerDatasetOrderLine",
-							"description": "Import data from Dataset_Order_Line"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Inventario",
-								"type": "DatasetReference"
-							},
-							"name": "LeerDatasetInventario"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Dataset_Order_Filtrado_Output",
-								"type": "DatasetReference"
-							},
-							"name": "sinkorderfiltradooutput",
-							"description": "salida del archivo order filtrado por ciudades principales"
-						},
-						{
-							"dataset": {
-								"referenceName": "Orderline_Filtrado",
-								"type": "DatasetReference"
-							},
-							"name": "sink1orderlinefiltrado"
-						},
-						{
-							"dataset": {
-								"referenceName": "Inventario_Ordenado",
-								"type": "DatasetReference"
-							},
-							"name": "sink1sortinventario"
-						}
-					],
-					"transformations": [
-						{
-							"name": "FiltroCiudadesPrincipales"
-						},
-						{
-							"name": "FiltrarProductValue",
-							"description": "Traer los registro que tengan un valor mayor a 0"
-						},
-						{
-							"name": "Orderby"
-						},
-						{
-							"name": "RemoveColumns1",
-							"description": "Autogenerated by data preview actions"
-						}
-					],
-					"scriptLines": [
-						"parameters{",
-						"     Nombre_Order_Filtrado as string ('Order_Filtrado.txt'),",
-						"     Nombre_OrderLine_Filtrado as string ('OrderLine_Filtrado'),",
-						"     Nombre_Inventario_Ordenado as string ('Inventario_Ordenado')",
-						"}",
-						"source(output(",
-						"          orderIdentifier as string,",
-						"          orderType as string,",
-						"          {vendor.organizationIdentifier} as string,",
-						"          {buyer.organizationIdentifier} as string,",
-						"          {shipFromInstructionLocation.locationIdentifier} as string,",
-						"          {shipToLocation.locationIdentifier} as string,",
-						"          orderStatus as string,",
-						"          createdDate as string,",
-						"          requestedShipDate as string,",
-						"          requestedDeliveryDate as string,",
-						"          plannedShipDate as string,",
-						"          plannedDeliveryDate as string,",
-						"          quantity as string,",
-						"          quantityUnits as string,",
-						"          totalValue as string,",
-						"          orderValueCurrency as string,",
-						"          lineCount as string,",
-						"          totalShippedQuantity as string,",
-						"          exclude as string,",
-						"          sourceLink as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> LeerDatasetOrder",
-						"source(output(",
-						"          orderIdentifier as integer,",
-						"          orderLineNumber as short,",
-						"          orderType as string,",
-						"          {product.partNumber} as string,",
-						"          {shipFromInstructionLocation.locationIdentifier} as string,",
-						"          {shipToLocation.locationIdentifier} as string,",
-						"          status as string,",
-						"          createdDate as string,",
-						"          requestedShipDate as string,",
-						"          requestedDeliveryDate as string,",
-						"          plannedShipDate as string,",
-						"          plannedDeliveryDate as string,",
-						"          quantity as short,",
-						"          quantityUnits as string,",
-						"          productValue as short,",
-						"          value as integer,",
-						"          valueCurrency as string,",
-						"          shipmentCount as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> LeerDatasetOrderLine",
-						"source(output(",
-						"          {product.partNumber} as string,",
-						"          {location.locationIdentifier} as string,",
-						"          inventoryType as string,",
-						"          quantity as string,",
-						"          quantityUnits as string,",
-						"          value as string,",
-						"          valueCurrency as string,",
-						"          reservationOrders as string,",
-						"          daysOfSupply as string,",
-						"          shelfLife as string,",
-						"          reorderLevel as string,",
-						"          expectedLeadTime as string,",
-						"          quantityUpperThreshold as string,",
-						"          quantityLowerThreshold as string,",
-						"          daysOfSupplyUpperThreshold as string,",
-						"          daysOfSupplyLowerThreshold as string,",
-						"          expiringThreshold as string,",
-						"          plannerCode as string,",
-						"          velocityCode as string,",
-						"          inventoryParentType as string,",
-						"          class as string,",
-						"          segment as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> LeerDatasetInventario",
-						"LeerDatasetOrder filter({shipToLocation.locationIdentifier}=='FAA - Washington' || {shipToLocation.locationIdentifier}=='MAHD - Boston') ~> FiltroCiudadesPrincipales",
-						"LeerDatasetOrderLine filter(productValue>0) ~> FiltrarProductValue",
-						"LeerDatasetInventario sort(asc({product.partNumber}, true)) ~> Orderby",
-						"Orderby select(mapColumn(",
-						"          {product.partNumber},",
-						"          inventoryType,",
-						"          plannerCode,",
-						"          inventoryParentType",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> RemoveColumns1",
-						"FiltroCiudadesPrincipales sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:[($Nombre_Order_Filtrado)],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     mapColumn(",
-						"          orderIdentifier,",
-						"          orderType,",
-						"          vendor_organizationIdentifier = {vendor.organizationIdentifier},",
-						"          buyer_organizationIdentifier = {buyer.organizationIdentifier},",
-						"          locationIdentifier = {shipToLocation.locationIdentifier}",
-						"     ),",
-						"     partitionBy('hash', 1)) ~> sinkorderfiltradooutput",
-						"FiltrarProductValue sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:[($Nombre_OrderLine_Filtrado)],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     mapColumn(",
-						"          orderIdentifier,",
-						"          orderLineNumber,",
-						"          orderType,",
-						"          partNumber = {product.partNumber},",
-						"          createdDate,",
-						"          quantity,",
-						"          productValue,",
-						"          value,",
-						"          valueCurrency",
-						"     ),",
-						"     partitionBy('hash', 1)) ~> sink1orderlinefiltrado",
-						"RemoveColumns1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:[($Nombre_Inventario_Ordenado)],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1sortinventario"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Dataset_Order')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Line')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Inventario')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Order_Filtrado_Output')]",
-				"[concat(variables('factoryId'), '/datasets/Orderline_Filtrado')]",
-				"[concat(variables('factoryId'), '/datasets/Inventario_Ordenado')]"
 			]
 		}
 	]
