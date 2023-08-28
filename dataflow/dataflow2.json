@@ -6,18 +6,80 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DS_Order_filtrado",
+						"referenceName": "DS_ORDER_FILTRADO",
 						"type": "DatasetReference"
 					},
 					"name": "OrderFiltrado"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_ORDERLINE_FILTRADO",
+						"type": "DatasetReference"
+					},
+					"name": "OrdenLineFiltrado"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_INVENTARIO_ORDERNADO",
+						"type": "DatasetReference"
+					},
+					"name": "InventarioOrdenado"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          orderIdentifier as string,",
+				"          orderType as string,",
+				"          vendor_organizationIdentifier as string,",
+				"          buyer_organizationIdentifier as string,",
+				"          locationIdentifier as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> OrderFiltrado"
+				"     ignoreNoFilesFound: false) ~> OrderFiltrado",
+				"source(output(",
+				"          orderIdentifier as string,",
+				"          orderLineNumber as string,",
+				"          orderType as string,",
+				"          partNumber as string,",
+				"          createdDate as string,",
+				"          quantity as string,",
+				"          productValue as string,",
+				"          value as string,",
+				"          valueCurrency as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> OrdenLineFiltrado",
+				"source(output(",
+				"          {product.partNumber} as string,",
+				"          {location.locationIdentifier} as string,",
+				"          inventoryType as string,",
+				"          quantity as string,",
+				"          quantityUnits as string,",
+				"          value as string,",
+				"          valueCurrency as string,",
+				"          reservationOrders as string,",
+				"          daysOfSupply as string,",
+				"          shelfLife as string,",
+				"          reorderLevel as string,",
+				"          expectedLeadTime as string,",
+				"          quantityUpperThreshold as string,",
+				"          quantityLowerThreshold as string,",
+				"          daysOfSupplyUpperThreshold as string,",
+				"          daysOfSupplyLowerThreshold as string,",
+				"          expiringThreshold as string,",
+				"          plannerCode as string,",
+				"          velocityCode as string,",
+				"          inventoryParentType as string,",
+				"          class as string,",
+				"          segment as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> InventarioOrdenado"
 			]
 		}
 	}

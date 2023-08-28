@@ -1,0 +1,61 @@
+{
+	"name": "DS_ORDERLINE_FILTRADO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linked_Bronze_To_Gold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "OrderLine_Filtrado",
+				"folderPath": "Silver",
+				"fileSystem": "containerlorena"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "orderIdentifier",
+				"type": "String"
+			},
+			{
+				"name": "orderLineNumber",
+				"type": "String"
+			},
+			{
+				"name": "orderType",
+				"type": "String"
+			},
+			{
+				"name": "partNumber",
+				"type": "String"
+			},
+			{
+				"name": "createdDate",
+				"type": "String"
+			},
+			{
+				"name": "quantity",
+				"type": "String"
+			},
+			{
+				"name": "productValue",
+				"type": "String"
+			},
+			{
+				"name": "value",
+				"type": "String"
+			},
+			{
+				"name": "valueCurrency",
+				"type": "String"
+			}
+		]
+	}
+}
