@@ -1,0 +1,30 @@
+{
+	"name": "Trigger_proyecto_final",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline_tallerfinal",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"Nombre_Archivo_Inventario": "'Inventory_v2.csv'",
+					"Nombre_Orden_Line": "'OrderLine_v4.csv'",
+					"Nombre_Archivo_Order": "'Order_v3.csv'"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2023-08-27T20:10:00",
+				"endTime": "2023-08-27T20:15:00",
+				"timeZone": "SA Pacific Standard Time"
+			}
+		}
+	}
+}
