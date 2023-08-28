@@ -13,6 +13,32 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Datalake_Order_line')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1_linkserviceslorenaleon",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "Bronze",
+						"fileSystem": "containerlorena"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Inventory_v2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -479,7 +505,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Dataset_final",
+								"referenceName": "Json_Final",
 								"type": "DatasetReference"
 							},
 							"name": "RemoveDuplicates"
@@ -914,7 +940,9 @@
 							"dataflow": {
 								"referenceName": "dataflow2",
 								"type": "DataFlowReference",
-								"parameters": {},
+								"parameters": {
+									"Nombre_Dataset_Final": "'Dataset_Final'"
+								},
 								"datasetParameters": {
 									"OrderFiltrado": {},
 									"OrdenLineFiltrado": {},
@@ -955,6 +983,7 @@
 				"[concat(variables('factoryId'), '/datasets/Inventory_v2')]",
 				"[concat(variables('factoryId'), '/datasets/Order_v3')]",
 				"[concat(variables('factoryId'), '/datasets/OrderLine_v4')]",
+				"[concat(variables('factoryId'), '/datasets/Datalake_Order_line')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow1')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow2')]"
 			]
