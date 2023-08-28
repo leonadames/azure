@@ -1,0 +1,41 @@
+{
+	"name": "DS_INVENTARIO_ORDENADO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linked_Bronze_To_Gold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Inventario_Ordenado",
+				"folderPath": "Silver",
+				"fileSystem": "containerlorena"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "product.partNumber",
+				"type": "String"
+			},
+			{
+				"name": "inventoryType",
+				"type": "String"
+			},
+			{
+				"name": "plannerCode",
+				"type": "String"
+			},
+			{
+				"name": "inventoryParentType",
+				"type": "String"
+			}
+		]
+	}
+}
