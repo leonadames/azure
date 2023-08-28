@@ -26,13 +26,27 @@
 					"name": "InventarioOrdenado"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Dataset_final",
+						"type": "DatasetReference"
+					},
+					"name": "RemoveDuplicates"
+				}
+			],
 			"transformations": [
 				{
 					"name": "JoinxOrdenIDandOrderType"
+				},
+				{
+					"name": "JoinxPartnumber"
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     Nombre_Dataset_Final as string ('Dataset_Final')",
+				"}",
 				"source(output(",
 				"          orderIdentifier as string,",
 				"          orderType as string,",
@@ -71,7 +85,21 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> JoinxOrdenIDandOrderType"
+				"     broadcast: 'auto')~> JoinxOrdenIDandOrderType",
+				"JoinxOrdenIDandOrderType, InventarioOrdenado join(partNumber == {product.partNumber},",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinxPartnumber",
+				"JoinxPartnumber sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:[($Nombre_Dataset_Final)],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> RemoveDuplicates"
 			]
 		}
 	}

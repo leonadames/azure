@@ -1,0 +1,23 @@
+{
+	"name": "Dataset_final",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linked_Bronze_To_Gold",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Gold",
+				"fileSystem": "containerlorena"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
